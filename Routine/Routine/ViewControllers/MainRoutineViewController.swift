@@ -102,6 +102,7 @@ final class MainRoutineViewController: UIViewController {
         
         configureUI()
         setUpRoutineCollectionView()
+        collectionViewGestureRecognizer()
         updateRoutineDatas()
     }
     
@@ -110,6 +111,60 @@ final class MainRoutineViewController: UIViewController {
         updateRoutineDatas()
     }
     
+}
+
+// MARK: - UIGestureRecognizer 설정
+extension MainRoutineViewController {
+    
+    // GestureRecognizer 설정 메서드
+    private func collectionViewGestureRecognizer() {
+        let tapGestureRecongnizer = UITapGestureRecognizer(target: self, action: #selector(collectionViewTapped))
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(collectionViewLogPress))
+        longPressGestureRecognizer.minimumPressDuration = 0.5
+        
+        [
+            tapGestureRecongnizer,
+            longPressGestureRecognizer
+        ].forEach { routineCollectionView.addGestureRecognizer($0) }
+        
+    }
+    
+    // 탭 액션
+    // 선택 시 루틴 결과 저장 및 셀에 반영
+    @objc
+    private func collectionViewTapped(_ gesture: UITapGestureRecognizer) {
+        guard gesture.state == .ended else { return }
+        let location = gesture.location(in: routineCollectionView)
+        guard let indexPath = routineCollectionView.indexPathForItem(at: location),
+              let routineCell = routineCollectionView.cellForItem(at: indexPath) as? RoutineCollectionViewCell,
+              indexPath.item < datas.count,
+              routineResultEditable else { return }
+        
+        var result = datas[indexPath.item].result
+        result.toggle()
+        
+        routineDataModel.updateRoutineResult(result)
+        routineCell.configureResult(result: result)
+    }
+    
+    // 롱 프레스 액션
+    // 0.5초 동안 길게 누를 시 루틴 수정 뷰 푸쉬 
+    @objc
+    private func collectionViewLogPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        
+        let location = gesture.location(in: routineCollectionView)
+        guard let indexPath = routineCollectionView.indexPathForItem(at: location),
+              indexPath.item < datas.count else { return }
+        
+        let routine = datas[indexPath.item].routine
+        
+        let editRoutineViewController = CreateRoutineViewController(.edit)
+        editRoutineViewController.configureData(routine)
+        
+        navigationController?.pushViewController(editRoutineViewController, animated: true)
+    }
 }
 
 // MARK: - 기본 설정 메서드
@@ -218,7 +273,6 @@ extension MainRoutineViewController {
     // 루틴 컬렉션 뷰 설정
     private func setUpRoutineCollectionView() {
         routineCollectionView.dataSource = self
-        routineCollectionView.delegate = self
         
         routineCollectionView.register(RoutineCollectionViewCell.self,
                                        forCellWithReuseIdentifier: RoutineCollectionViewCell.id)
@@ -266,27 +320,4 @@ extension MainRoutineViewController: UICollectionViewDataSource {
         return routineCell
     }
     
-}
-
-// MARK: - MainRoutineViewController - Delegate
-
-extension MainRoutineViewController: UICollectionViewDelegate {
-    
-    // 셀이 선택되기 전 호출 메서드
-    // 날짜를 통해 수정 가능여부 확인 후
-    // 해당 셀의 루틴 결과를 수정 후 저장
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
-        guard routineResultEditable else { return false }
-        
-        guard let cell = collectionView.cellForItem(at: indexPath) as? RoutineCollectionViewCell,
-              var result = cell.result else { return false }
-        
-        result.toggle()
-        routineDataModel.updateRoutineResult(result)
-        cell.configureResult(result: result)
-        
-        return false
-    }
-        
 }
