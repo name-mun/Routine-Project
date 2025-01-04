@@ -8,7 +8,7 @@
 import Foundation
 
 /// DateID
-struct DateID: Codable, Equatable, Comparable {
+struct DateID: Codable, Equatable, Comparable, CustomStringConvertible {
     
     let year: Int
     let month: Int
@@ -19,6 +19,10 @@ struct DateID: Codable, Equatable, Comparable {
         self.year = calendar.component(.year, from: date)
         self.month = calendar.component(.month, from: date)
         self.day = calendar.component(.day, from: date)
+    }
+    
+    var description: String {
+        "\(year)년 \(month)월 \(day)일"
     }
         
     func equalMonth(_ dateID: DateID) -> Bool {

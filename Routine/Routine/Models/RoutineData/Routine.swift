@@ -84,8 +84,9 @@ struct Routine: JSONCodable, CustomStringConvertible {
     }
     
     func result(at date: Date) -> RoutineResult {
-        guard let result = Self.routineResultManager.read(date, id) else {
-            return RoutineResult(date: date, routineID: id)
+        let dateID = DateID(date)
+        guard let result = Self.routineResultManager.read(dateID, id) else {
+            return RoutineResult(dateID: dateID, routineID: id)
         }
         
         return result

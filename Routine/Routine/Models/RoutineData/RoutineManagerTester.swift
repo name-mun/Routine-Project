@@ -13,7 +13,9 @@ struct RoutineManagerTester {
     private let routineManager = RoutineManager.shared
     private let oldValue = MockData.oldRoutine
     private let newValue = MockData.newRoutine
-    
+    private var currentRoutines: [Routine] {
+        return routineManager.read(MockData.date)
+    }
     
     func whole() {
         routineManager.reset()
@@ -27,7 +29,7 @@ struct RoutineManagerTester {
     private func creat() {
         testStartPrint("creat")
         routineManager.create(oldValue)
-        let oldRoutine = routineManager.read(MockData.date)
+        let oldRoutine = currentRoutines
         if oldRoutine.count == 1,
            oldRoutine[0] == oldValue {
             testResultPrint("creat", result: true)
@@ -36,19 +38,16 @@ struct RoutineManagerTester {
         }
     }
 //    
-//    private func read() {
-//        testStartPrint("read")
-//        if routineManager.read(of: MockData.date) {
-//            testResultPrint("read", result: true)
-//        } else {
-//            testResultPrint("read", result: false)
-//        }
-//    }
+    private func read() {
+        testStartPrint("read")
+        let routines = currentRoutines
+        print(routines.map { $0.description }.joined(separator: "\n\n"))
+    }
     
     private func update() {
         testStartPrint("update")
         routineManager.update(newValue)
-        let newRoutine = routineManager.read(MockData.date)
+        let newRoutine = currentRoutines
         if newRoutine.count == 1,
            newRoutine[0] == newValue {
             testResultPrint("update", result: true)
@@ -63,18 +62,20 @@ struct RoutineManagerTester {
         testStartPrint("delete")
         routineManager.delete(newValue)
         
-//        if nil == routineManager.read(date: MockData.date) {
-//            testResultPrint("delete", result: true)
+        let routines = currentRoutines
+        
+        if [] == currentRoutines {
+            testResultPrint("delete", result: true)
             
-//        } else if let routine = routineManager.read(date: MockData.date) {
-//            let str = routine.map { $0.description }.joined(separator: "\n\n")
-//            print(str)
-//            testResultPrint("delete", result: false)
-//
-//            
-//        } else {
-//            print("delete 테스트 실패 🚨")
-//        }
+        } else if [] != routines {
+            let str = routines.map { $0.description }.joined(separator: "\n\n")
+            print(str)
+            testResultPrint("delete", result: false)
+
+            
+        } else {
+            print("delete 테스트 실패 🚨")
+        }
     }
     
     

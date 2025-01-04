@@ -31,15 +31,7 @@ struct RoutineResult: CustomStringConvertible {
     mutating func toggle() {
         self.isCompleted.toggle()
     }
-        
-    init(date: Date,
-         routineID: RoutineID,
-         isCompleted: Bool = false) {
-        self.routineID = routineID
-        self.dateID = DateID(date)
-        self.isCompleted = isCompleted
-    }
-    
+
     init(dateID: DateID,
          routineID: RoutineID,
          isCompleted: Bool = false) {

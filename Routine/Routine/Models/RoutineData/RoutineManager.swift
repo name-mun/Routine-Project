@@ -41,14 +41,14 @@ class RoutineManager: NSDataManager {
 extension RoutineManager {
     
     /// RoutineData를 인코딩 후 CoreData에 저장
-    func create(_ routineData: Routine) {
+    func create(_ routine: Routine) {
         guard let entity,
               let container,
               let routineCoreData = NSManagedObject(entity: entity,
                                                      insertInto: container.viewContext)
                 as? RoutineCoreData else { return }
         
-        routineCoreData.setRoutineData(routineData)
+        routineCoreData.setRoutineData(routine)
         save()
     }
     
@@ -65,7 +65,6 @@ extension RoutineManager {
             }
         }
         
-        
         return routines
     }
     
@@ -81,7 +80,6 @@ extension RoutineManager {
         }
         
         save()
-        
     }
     
     /// RoutineData를 통해 식별 후 삭제

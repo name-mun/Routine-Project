@@ -21,11 +21,13 @@ public class RoutineResultCoreData: NSManagedObject, IDNSManagedObject {
     }
     
     func convertTo() -> RoutineResult? {
-        guard let dateID = value(forKey: Key.dateID) as? Date,
+        guard let date = value(forKey: Key.dateID) as? Date,
               let routineID = value(forKey: Key.routineID) as? UUID,
               let isCompleted =  value(forKey: Key.isCompleted) as? Bool else { return nil }
         
-        return RoutineResult(date: dateID,
+        let dateID = DateID(date)
+        
+        return RoutineResult(dateID: dateID,
                              routineID: routineID,
                              isCompleted: isCompleted)
     }

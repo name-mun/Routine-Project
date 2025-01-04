@@ -68,9 +68,9 @@ extension RoutineResultManager {
     }
     
     /// dateID / routineID 를 통해 RoutineResult? 반환
-    func read(_ dateID: Date, _ routineID: UUID) -> RoutineResult? {
+    func read(_ dateID: DateID, _ routineID: UUID) -> RoutineResult? {
         let routineResultCoreDatas = fetchData()
-        let checker = RoutineResult(date: dateID, routineID: routineID)
+        let checker = RoutineResult(dateID: dateID, routineID: routineID)
         
         for routineResultCoreData in routineResultCoreDatas {
             if routineResultCoreData.isSame(checker),
@@ -102,6 +102,18 @@ extension RoutineResultManager {
 
         routineResultCoreDatas.forEach { routineResultCoreData in
             if routineResultCoreData.isSame(routineResult) {
+                deleteData(routineResultCoreData)
+            }
+        }
+        
+        save()
+    }
+    
+    func deleteAll(of routineID: RoutineID) {
+        let routineReusltCoreDatas = fetchData()
+        
+        routineReusltCoreDatas.forEach { routineResultCoreData in
+            if routineResultCoreData.routineID == routineID {
                 deleteData(routineResultCoreData)
             }
         }
