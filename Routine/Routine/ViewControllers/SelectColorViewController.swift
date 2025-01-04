@@ -9,25 +9,25 @@ import UIKit
 
 import SnapKit
 
-// 색상 데이터
-let colorData = [
-    [255.0, 255.0, 255.0],
-    [244.0, 244.0, 245.0],
-    [254.0, 243.0, 245.0],
-    [253.0, 247.0, 243.0],
-    [251.0, 251.0, 241.0],
-    [251.0, 247.0, 236.0],
-    [251.0, 252.0, 241.0],
-    [244.0, 250.0, 236.0],
-    [241.0, 251.0, 247.0],
-    [241.0, 252.0, 251.0],
-    [240.0, 252.0, 251.0],
-    [244.0, 243.0, 255.0]
-]
+//// 색상 데이터
+//let colorData = [
+//    [255.0, 255.0, 255.0],
+//    [244.0, 244.0, 245.0],
+//    [254.0, 243.0, 245.0],
+//    [253.0, 247.0, 243.0],
+//    [251.0, 251.0, 241.0],
+//    [251.0, 247.0, 236.0],
+//    [251.0, 252.0, 241.0],
+//    [244.0, 250.0, 236.0],
+//    [241.0, 251.0, 247.0],
+//    [241.0, 252.0, 251.0],
+//    [240.0, 252.0, 251.0],
+//    [244.0, 243.0, 255.0]
+//]
 
 // SelectColorViewControllerDelegate 프로토콜
 protocol SelectColorViewControllerDelegate: AnyObject {
-    func updateColor(_ viewController: SelectColorViewController, color: [Double], selectedIndex: Int)
+    func updateColor(_ viewController: SelectColorViewController, color: BoardColor, selectedIndex: Int)
 }
 
 class SelectColorViewController: UIViewController {
@@ -101,7 +101,8 @@ extension SelectColorViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIneex = indexPath.item
-        self.delegate?.updateColor(self, color: colorData[indexPath.item], selectedIndex: selectedIneex)
+        guard let color = BoardColor(rawValue: indexPath.item) else { return }
+        self.delegate?.updateColor(self, color: color, selectedIndex: selectedIneex)
         self.dismiss(animated: true)
     }
 }
@@ -110,13 +111,16 @@ extension SelectColorViewController: UICollectionViewDelegate {
 
 extension SelectColorViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        12
+        BoardColor.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ColorCollectionViewCell else {
             return UICollectionViewCell() }
-        cell.setupColor(colorData[indexPath.item])
+
+        if let color = BoardColor(rawValue: indexPath.item) {
+            cell.setupColor(color)
+        }
 
         if indexPath.item == selectedIneex {
             cell.setupCheck(true)

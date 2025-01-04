@@ -43,6 +43,6 @@ class StickerCollectionViewCell: UICollectionViewCell {
     // MARK: - 데이터 설정
 
     func configure(_ stickerName: String) {
-        stickerImageView.image = UIImage(systemName: stickerName)
+        stickerImageView.image = UIImage(systemName: stickerName)?.withRenderingMode(.alwaysOriginal)
     }
 }
