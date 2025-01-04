@@ -16,17 +16,6 @@ class RoutineSuggestionViewController: UIViewController {
     private let addButton = UIButton()
     private let suggestionData = SuggestionData.mock
 
-    // 테스트용 버튼
-    private lazy var testButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .red
-        button.setTitle("수정테스트", for: .normal)
-        button.addAction(UIAction{ [weak self] _ in
-            self?.testButtonTapped()
-        }, for: .touchUpInside)
-        return button
-    }()
-
     var onDismiss: (() -> Void)?
 
     override func viewDidLoad() {
@@ -44,8 +33,6 @@ class RoutineSuggestionViewController: UIViewController {
     }
 
     private func configurePageTitle() {
-        view.addSubview(testButton)
-
         pageTitle.text = "루틴추천"
         pageTitle.textColor = .black
         pageTitle.font = .boldSystemFont(ofSize: 30)
@@ -83,14 +70,8 @@ class RoutineSuggestionViewController: UIViewController {
     }
 
     private func configureLayout() {
-        testButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30)
-            $0.leading.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
-        }
-
         pageTitle.snp.makeConstraints {
-            $0.top.equalTo(testButton.snp.bottom).offset(10)
+            $0.top.equalToSuperview().inset(30)
             $0.leading.equalToSuperview().inset(20)
         }
 
@@ -142,12 +123,6 @@ class RoutineSuggestionViewController: UIViewController {
         nav?.pushViewController(newViewController, animated: true)
 
         self.dismiss(animated: true, completion: nil)
-
-        //nextScreen.modalPresentationStyle = .fullScreen
-
-        //present(nextScreen,animated: true,completion: nil)
-        //.navigationController?.pushViewController(nextScreen, animated: true)
-        //navigationController?.pushViewController(nextScreen, animated: true)
     }
 }
 
@@ -194,8 +169,3 @@ extension RoutineSuggestionViewController: UITableViewDataSource {
         return cell
     }
 }
-
-#Preview("RoutineSuggestionViewController") {
-    RoutineSuggestionViewController()
-}
-
