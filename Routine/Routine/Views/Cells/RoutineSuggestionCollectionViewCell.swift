@@ -38,7 +38,14 @@ class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
         itemLabel.font = .systemFont(ofSize: 15)
         itemLabel.textColor = .black
 
-        imageView.image = UIImage(named: "test")
+        if let sticker = item?.sticker {
+            imageView.image = UIImage(systemName: sticker)?.withRenderingMode(.alwaysOriginal)
+        }
+
+        if let color = item?.color.uiColor() {
+            view.backgroundColor = color
+        }
+
         imageView.contentMode = .scaleAspectFit
 
 

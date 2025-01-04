@@ -97,11 +97,11 @@ class RoutineEditorView: UIView {
     }()
 
     // 타이틀 입력 이미지
-    private let titleInputImage: UIImageView = {
+    var titleInputImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "gamecontroller")?.withRenderingMode(.alwaysOriginal)
+        imageView.image = UIImage(systemName: "house.fill")?.withRenderingMode(.alwaysOriginal)
         imageView.contentMode = .scaleAspectFill
-
+        imageView.tintColor = .black
         return imageView
     }()
 
