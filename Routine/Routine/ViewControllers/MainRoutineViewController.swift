@@ -14,21 +14,21 @@ import SnapKit
 // 루틴 메인 화면 ViewController
 final class MainRoutineViewController: UIViewController {
     
+    // 루틴 데이터 모델
     private let routineDataModel = RoutineDataModel.shared
     
-    // 프로퍼티 옵저버를 통해 데이터가 변하기 전 자동으로 코어데이터에 값을 저장시킨다.
-    // TODO: 마지막으로 누른 셀의 경우 데이터가 제대로 저장되지 않는 오류 발생
-    // willSet / didSet 모두 적용시키면 정상 작동하지만 원인을 파악하지 못함
+    // 루틴 데이터
     private var datas: [(routine: Routine, result: RoutineResult)] = []
     
     // 뷰에 로드되는 루틴 날짜 ( Model 에 위치하는게 적합할 것 같다. )
     private var date: Date = Date.now
     
-    // 페이지의 루틴 날짜와 현재 날짜를 비교해, 루틴 결과 수정 가능여부 연산 ( Model 에 위치하는게 적합할 것 같다. )
+    // 페이지의 루틴 날짜와 현재 날짜를 비교해, 루틴 결과 수정 가능여부 연산
     private var routineResultEditable: Bool {
         DateID(self.date) <= DateID(Date.now)
     }
     
+    // 날짜 표시 라벨
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         
@@ -40,6 +40,7 @@ final class MainRoutineViewController: UIViewController {
         return label
     }()
     
+    // 제목 라벨
     private let titleLabel: UILabel = {
         let label = UILabel()
         
@@ -102,14 +103,10 @@ final class MainRoutineViewController: UIViewController {
         configureUI()
         setUpRoutineCollectionView()
         updateRoutineDatas()
-        
-        RoutineManager.shared.create(MockData.oldRoutine)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         updateRoutineDatas()
     }
     
@@ -276,7 +273,8 @@ extension MainRoutineViewController: UICollectionViewDataSource {
 extension MainRoutineViewController: UICollectionViewDelegate {
     
     // 셀이 선택되기 전 호출 메서드
-    // 해당 셀의 결과값을 전환시킨다
+    // 날짜를 통해 수정 가능여부 확인 후
+    // 해당 셀의 루틴 결과를 수정 후 저장
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
         guard routineResultEditable else { return false }
@@ -290,5 +288,5 @@ extension MainRoutineViewController: UICollectionViewDelegate {
         
         return false
     }
-    
+        
 }

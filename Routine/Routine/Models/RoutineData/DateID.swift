@@ -8,6 +8,9 @@
 import Foundation
 
 /// DateID
+///
+/// year, month, day 를 사용한 식별자
+///
 struct DateID: Codable, Equatable, Comparable, CustomStringConvertible {
     
     let year: Int
@@ -25,10 +28,12 @@ struct DateID: Codable, Equatable, Comparable, CustomStringConvertible {
         "\(year)년 \(month)월 \(day)일"
     }
         
+    // 통계뷰를 위한 식별 메서드
     func equalMonth(_ dateID: DateID) -> Bool {
         year == dateID.year && month == dateID.month
     }
     
+    // DateID 를 Date 로 변환
     func date() -> Date? {
         let component = DateComponents(year: self.year, month: self.month, day: self.day)
         return Calendar.current.date(from: component)
@@ -38,6 +43,7 @@ struct DateID: Codable, Equatable, Comparable, CustomStringConvertible {
         compareForm(lhs) < compareForm(rhs)
     }
     
+    // 비교를 위한 형태
     private static func compareForm(_ dateID: DateID) -> Int {
         let year = "\(dateID.year)"
         let month = dateID.month < 10 ? "0\(dateID.month)" : "\(dateID.month)"

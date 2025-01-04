@@ -21,7 +21,6 @@ struct RoutineManagerTester {
         routineManager.reset()
         
         creat()
-//        read()
         update()
         delete()
     }
@@ -37,7 +36,7 @@ struct RoutineManagerTester {
             testResultPrint("creat", result: false)
         }
     }
-//    
+
     private func read() {
         testStartPrint("read")
         let routines = currentRoutines
