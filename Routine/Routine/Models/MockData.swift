@@ -8,7 +8,7 @@ struct MockData {
     
     static let oldRoutine = RoutineData(id: Self.uuid,
                                         title: "1970년 루틴",
-                                        color: .blue,
+                                        color: .pastelPink,
                                         sticker: "goforward.15.ar",
                                         startDate: Self.date,
                                         stopDate: nil,
@@ -17,7 +17,7 @@ struct MockData {
     
     static let newRoutine = RoutineData(id: Self.uuid,
                                         title: "newRoutine",
-                                        color: .yello,
+                                        color: .pastelYellow,
                                         sticker: "applelogo",
                                         startDate: Self.date,
                                         stopDate: nil,
@@ -25,7 +25,7 @@ struct MockData {
                                         alarm: nil)
     
     static let currentRoutine = RoutineData(title: "currentRoutine",
-                                            color: .green,
+                                            color: .pastelPeach,
                                             sticker: "applelogo",
                                             stopDate: nil,
                                             repeatation: .default,
