@@ -15,7 +15,7 @@ import CoreData
 ///
 class RoutineManager: NSDataManager {
     
-    typealias CoreData = RoutineDataModel
+    typealias CoreData = RoutineCoreData
     
     var container: NSPersistentContainer? = {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -44,39 +44,39 @@ extension RoutineManager {
     func create(_ routineData: Routine) {
         guard let entity,
               let container,
-              let routineDataModel = NSManagedObject(entity: entity,
+              let routineCoreData = NSManagedObject(entity: entity,
                                                      insertInto: container.viewContext)
-                as? RoutineDataModel else { return }
+                as? RoutineCoreData else { return }
         
-        routineDataModel.setRoutineData(routineData)
+        routineCoreData.setRoutineData(routineData)
         save()
     }
     
     /// 입력 날짜에 해당하는 루틴 데이터 배열 반환
     func read(_ date: Date) -> [Routine] {
-        var routineDatas: [Routine] = []
+        var routines: [Routine] = []
         
-        let routineDataModels = fetchData()
+        let routineCoreDatas = fetchData()
         
-        routineDataModels.forEach { routineDataModel in
-            if let routineData = routineDataModel.convert(),
-               routineData.isScheduled(date) {
-                routineDatas.append(routineData)
+        routineCoreDatas.forEach { routineCoreData in
+            if let routine = routineCoreData.convert(),
+               routine.isScheduled(date) {
+                routines.append(routine)
             }
         }
         
         
-        return routineDatas
+        return routines
     }
     
     /// RoutineData를 통해 식별 후 데이터 업데이트
     func update(_ routine: Routine) {
         let routineDataModels = fetchData()
         
-        routineDataModels.forEach { routineDataModel in
-            if let currentRoutine = routineDataModel.convert(),
+        routineDataModels.forEach { routineCoreData in
+            if let currentRoutine = routineCoreData.convert(),
                currentRoutine == routine {
-                routineDataModel.setRoutineData(routine)
+                routineCoreData.setRoutineData(routine)
             }
         }
         
@@ -87,11 +87,11 @@ extension RoutineManager {
     /// RoutineData를 통해 식별 후 삭제
     func delete(_ routine: Routine) {
         
-        let routineDataModels = fetchData()
+        let routineCoreDatas = fetchData()
         
-        routineDataModels.forEach { routineDataModel in
-            if let routineData = routineDataModel.convert(),
-               routine == routineData { deleteData(routineDataModel) }
+        routineCoreDatas.forEach { routineCoreData in
+            if let loadedRoutine = routineCoreData.convert(),
+               routine == loadedRoutine { deleteData(routineCoreData) }
         }
         
         save()
@@ -99,10 +99,10 @@ extension RoutineManager {
     
     /// 전체 루틴 데이터 초기화
     func reset() {
-        let routineDataModels =  fetchData()
+        let routineCoreDatas =  fetchData()
         
-        routineDataModels.forEach { routineDataModel in
-            deleteData(routineDataModel)
+        routineCoreDatas.forEach { routineCoreData in
+            deleteData(routineCoreData)
         }
         save()
     }

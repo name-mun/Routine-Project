@@ -15,13 +15,19 @@ struct DateID: Codable, Equatable, Comparable {
     let day: Int
     
     init(_ date: Date) {
-        self.year = Calendar.current.component(.year, from: date)
-        self.month = Calendar.current.component(.month, from: date)
-        self.day = Calendar.current.component(.day, from: date)
+        let calendar = Calendar.current
+        self.year = calendar.component(.year, from: date)
+        self.month = calendar.component(.month, from: date)
+        self.day = calendar.component(.day, from: date)
     }
         
     func equalMonth(_ dateID: DateID) -> Bool {
         year == dateID.year && month == dateID.month
+    }
+    
+    func date() -> Date? {
+        let component = DateComponents(year: self.year, month: self.month, day: self.day)
+        return Calendar.current.date(from: component)
     }
     
     static func < (lhs: DateID, rhs: DateID) -> Bool {
@@ -34,10 +40,5 @@ struct DateID: Codable, Equatable, Comparable {
         let day = dateID.day < 10 ? "0\(dateID.day)" : "\(dateID.day)"
         
         return Int(year + month + day) ?? 0
-    }
-    
-    func date() -> Date? {
-        let component = DateComponents(year: self.year, month: self.month, day: self.day)
-        return Calendar.current.date(from: component)
     }
 }

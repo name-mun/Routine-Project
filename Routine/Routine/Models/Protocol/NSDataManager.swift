@@ -65,7 +65,9 @@ extension NSDataManager {
     }
     
     func save() {
-        guard let container else { return }
+        guard let container else {
+            print("save 실패")
+                  return }
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()

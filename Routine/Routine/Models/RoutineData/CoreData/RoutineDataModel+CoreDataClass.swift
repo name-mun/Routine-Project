@@ -12,32 +12,32 @@ import CoreData
 
 
 
-@objc(RoutineDataModel)
-public class RoutineDataModel: NSManagedObject, IDNSManagedObject {
+@objc(RoutineCoreData)
+public class RoutineCoreData: NSManagedObject, IDNSManagedObject {
     
-    static let classID: String = "RoutineDataModel"
+    static let classID: String = "RoutineCoreData"
     
     enum Key {
-        static let routineJSONData = "routineJSONData"
+        static let encodedData = "encodedData"
     }
     
     func setRoutine(_ data: Data) {
-        setValue(data, forKey: RoutineDataModel.Key.routineJSONData)
+        setValue(data, forKey: RoutineCoreData.Key.encodedData)
     }
     
-    func setRoutineData(_ routineData: Routine) {
-        let jsonData = routineData.json()
-        setValue(jsonData, forKey: RoutineDataModel.Key.routineJSONData)
+    func setRoutineData(_ routine: Routine) {
+        let encodedData = routine.json()
+        setValue(encodedData, forKey: RoutineCoreData.Key.encodedData)
     }
     
     func json() -> Data? {
-        return value(forKey: RoutineDataModel.Key.routineJSONData) as? Data
+        return value(forKey: RoutineCoreData.Key.encodedData) as? Data
     }
     
     func convert() -> Routine? {
-        guard let routineJSONData = self.json(),
-              let routineData = Routine(from: routineJSONData) else { return nil}
+        guard let encodedData = self.json(),
+              let routine = Routine(from: encodedData) else { return nil}
         
-        return routineData
+        return routine
     }
 }
