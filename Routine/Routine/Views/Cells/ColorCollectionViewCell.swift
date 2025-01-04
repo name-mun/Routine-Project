@@ -51,12 +51,10 @@ class ColorCollectionViewCell: UICollectionViewCell {
 
 extension ColorCollectionViewCell {
     // 색상 설정
-    func setupColor(_ color: [Double]) {
-        let rColor = color[0] / 256.0
-        let gColor = color[1] / 256.0
-        let bColor = color[2] / 256.0
-        let colors = UIColor(red: rColor, green: gColor, blue: bColor, alpha: 1)
-        colorImageView.backgroundColor = colors
+    func setupColor(_ color: BoardColor) {
+
+        let uiColor = color.uiColor()
+        colorImageView.backgroundColor = uiColor
     }
 
     // 선택된 색상 체크 표시
