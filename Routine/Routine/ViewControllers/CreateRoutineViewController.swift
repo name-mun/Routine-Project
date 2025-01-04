@@ -94,7 +94,7 @@ extension CreateRoutineViewController {
 
     // 추가하기 버튼 눌리면 실행
     private func addButtonTapped() {
-        let data = RoutineData(
+        let data = Routine(
             title: routineEditorView.titleTextField.text ?? "",
             color: color,
             sticker: sticker,

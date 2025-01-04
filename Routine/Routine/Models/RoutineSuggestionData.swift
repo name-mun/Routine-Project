@@ -23,7 +23,7 @@ struct SuggestionData {
                     color: .ivory,
                     sticker: "bed.double.fill",
                     repeatation: .default),
-                RoutineData(
+                Routine(
                     title: "물 한컵 마시기",
                     color: .mintGreen,
                     sticker: "cup.and.saucer.fill",
@@ -33,7 +33,7 @@ struct SuggestionData {
                     color: .pastelPeach,
                     sticker: "takeoutbag.and.cup.and.straw.fill",
                     repeatation: .default),
-                RoutineData(
+                Routine(
                     title: "아침 운동하기",
                     color: .pastelGreen,
                     sticker: "figure.walk",
@@ -58,7 +58,7 @@ struct SuggestionData {
                     color: .softIvory,
                     sticker: "pawprint.fill",
                     repeatation: .default),
-                RoutineData(
+                Routine(
                     title: "쓰레기 버리기",
                     color: .pastelYellow,
                     sticker: "trash.fill",
@@ -83,7 +83,7 @@ struct SuggestionData {
                     color: .white,
                     sticker: "person.fill",
                     repeatation: .default),
-                RoutineData(
+                Routine(
                     title: "새로운 기술 배우기",
                     color: .softAqua,
                     sticker: "lightbulb.fill",

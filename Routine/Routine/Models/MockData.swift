@@ -17,14 +17,15 @@ struct MockData {
                                         alarm: nil)
     
     static let newRoutine = Routine(id: Self.uuid,
-                                        title: "newRoutine",
+                                    title: "newRoutine",
+                                    color: .pastelPeach,
                                         sticker: "applelogo",
                                         startDate: Self.date,
                                         stopDate: nil,
                                         repeatation: .default,
                                         alarm: nil)
     
-    static let currentRoutine = RoutineData(title: "currentRoutine",
+    static let currentRoutine = Routine(title: "currentRoutine",
                                             color: .pastelPeach,
                                             sticker: "applelogo",
                                             stopDate: nil,
