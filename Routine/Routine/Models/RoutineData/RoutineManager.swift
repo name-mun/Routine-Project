@@ -76,10 +76,11 @@ extension RoutineManager {
             if let currentRoutine = routineCoreData.convert(),
                currentRoutine == routine {
                 routineCoreData.setRoutineData(routine)
+                save()
+                return
             }
         }
         
-        save()
     }
     
     /// RoutineData를 통해 식별 후 삭제
