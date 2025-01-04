@@ -154,10 +154,14 @@ extension CreateRoutineViewController {
     // 삭제하기 버튼 눌리면 실행
     private func deleteButtonTapped() {
         if routineEditorMode == .edit {
-            guard let routine = routine else { return }
-            RoutineManager.shared.delete(routine)
+            let modalVC = DeleteRoutineViewController()
+            modalVC.delegate = self
+            modalVC.modalPresentationStyle = .overFullScreen
+            modalVC.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            present(modalVC, animated: true)
+        } else {
+            navigationController?.popToRootViewController(animated: true)
         }
-        navigationController?.popToRootViewController(animated: true)
     }
 }
 
@@ -179,5 +183,18 @@ extension CreateRoutineViewController: SelectStickerViewControllerDelegate {
     func updateSticker(_ viewController: UIViewController, sticker: String) {
         routineEditorView.titleInputImage.image = UIImage(systemName: sticker)?.withRenderingMode(.alwaysOriginal)
         self.sticker = sticker
+    }
+}
+
+
+// MARK: - DeleteRoutineViewController Delegate 설정
+
+extension CreateRoutineViewController: DeleteRoutineViewControllerDelegate {
+    func updateData(_ viewController: UIViewController, _ isApplyTapped: Bool) {
+        if isApplyTapped, let routine = routine {
+            RoutineManager.shared.delete(routine)
+        }
+
+        navigationController?.popToRootViewController(animated: true)
     }
 }
