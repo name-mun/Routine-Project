@@ -9,22 +9,6 @@ import UIKit
 
 import SnapKit
 
-//// 색상 데이터
-//let colorData = [
-//    [255.0, 255.0, 255.0],
-//    [244.0, 244.0, 245.0],
-//    [254.0, 243.0, 245.0],
-//    [253.0, 247.0, 243.0],
-//    [251.0, 251.0, 241.0],
-//    [251.0, 247.0, 236.0],
-//    [251.0, 252.0, 241.0],
-//    [244.0, 250.0, 236.0],
-//    [241.0, 251.0, 247.0],
-//    [241.0, 252.0, 251.0],
-//    [240.0, 252.0, 251.0],
-//    [244.0, 243.0, 255.0]
-//]
-
 // SelectColorViewControllerDelegate 프로토콜
 protocol SelectColorViewControllerDelegate: AnyObject {
     func updateColor(_ viewController: SelectColorViewController, color: BoardColor, selectedIndex: Int)
