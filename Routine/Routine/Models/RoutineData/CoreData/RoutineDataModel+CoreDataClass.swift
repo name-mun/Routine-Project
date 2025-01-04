@@ -10,32 +10,34 @@ import Foundation
 
 import CoreData
 
-@objc(RoutineDataModel)
-public class RoutineDataModel: NSManagedObject {
+
+
+@objc(RoutineCoreData)
+public class RoutineCoreData: NSManagedObject, IDNSManagedObject {
     
-    static let className: String = "RoutineDataModel"
+    static let classID: String = "RoutineCoreData"
     
     enum Key {
-        static let routineJSONData = "routineJSONData"
+        static let encodedData = "encodedData"
     }
     
     func setRoutine(_ data: Data) {
-        setValue(data, forKey: RoutineDataModel.Key.routineJSONData)
+        setValue(data, forKey: RoutineCoreData.Key.encodedData)
     }
     
-    func setRoutineData(_ routineData: RoutineData) {
-        let jsonData = routineData.json()
-        setValue(jsonData, forKey: RoutineDataModel.Key.routineJSONData)
+    func setRoutineData(_ routine: Routine) {
+        let encodedData = routine.json()
+        setValue(encodedData, forKey: RoutineCoreData.Key.encodedData)
     }
     
     func json() -> Data? {
-        return value(forKey: RoutineDataModel.Key.routineJSONData) as? Data
+        return value(forKey: RoutineCoreData.Key.encodedData) as? Data
     }
     
-    func convert() -> RoutineData? {
-        guard let routineJSONData = self.json(),
-              let routineData = RoutineData(from: routineJSONData) else { return nil}
+    func convert() -> Routine? {
+        guard let encodedData = self.json(),
+              let routine = Routine(from: encodedData) else { return nil}
         
-        return routineData
+        return routine
     }
 }

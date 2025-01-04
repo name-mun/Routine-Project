@@ -19,11 +19,13 @@ class RoutineCollectionViewCell: UICollectionViewCell {
     
     // 루틴 데이터
     // 데이터가 변할 경우 프로퍼티 옵저버를 통해 뷰를 업데이트한다.
-    private var wholeData: WholeData? {
-        didSet {
-            updateData()
-        }
-    }
+    //    private var wholeData: RoutineData? {
+    //        didSet {
+    //            updateData()
+    //        }
+    //    }
+    private(set) var routine: Routine?
+    private(set) var result: RoutineResult?
     
     
     // 전체 스택 뷰
@@ -85,13 +87,13 @@ class RoutineCollectionViewCell: UICollectionViewCell {
         let resizedCheckImage = renderer.image { _ in
             checkImage?.draw(in: .init(origin: .zero, size: imageSize))
         }
-                
+        
         imageView.image = resizedCheckImage
         imageView.tintColor = .white
-
+        
         return imageView
     }()
-
+    
     
     override func prepareForReuse() {
         resetData()
@@ -105,17 +107,25 @@ class RoutineCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }
 
 
 // MARK: - 외부 사용 메서드
 
 extension RoutineCollectionViewCell {
-        
-    /// 데이터 적용
-    func configureData(_ wholeData: WholeData) {
-        self.wholeData = wholeData
+    
+    /// 루틴 적용
+    //
+    func configureRoutine(routine: Routine) {
+        self.routine = routine
+        updateRoutine()
+    }
+    
+    // 루틴 결과 적용
+    func configureResult(result: RoutineResult) {
+        self.result = result
+        updateResult(result.isCompleted)
     }
     
     /// 셀 포지션 적용
@@ -129,16 +139,16 @@ extension RoutineCollectionViewCell {
 // MARK: - 레이아웃 설정
 
 extension RoutineCollectionViewCell {
-
+    
     // UI 설정
     private func configureUI() {
-
+        
         [
             stackView,
             stopMarkImageView,
             checkImageView
         ].forEach { addSubview($0) }
-
+        
         [
             titleLabel,
             stickerImageView
@@ -161,7 +171,7 @@ extension RoutineCollectionViewCell {
             titleLabel.height.equalToSuperview().multipliedBy(0.7)
             titleLabel.centerX.equalToSuperview()
         }
-
+        
         // 스티커 이미지 뷰 레이아웃 설정
         stickerImageView.snp.makeConstraints { imageView in
             imageView.height.equalToSuperview().multipliedBy(0.3)
@@ -172,7 +182,7 @@ extension RoutineCollectionViewCell {
             imageView.center.equalToSuperview()
             imageView.size.equalToSuperview().multipliedBy(0.5)
         }
-
+        
         clipsToBounds = true
         layer.cornerRadius = Self.cornerRadius
         layer.borderWidth = Self.borderWidth
@@ -185,53 +195,51 @@ extension RoutineCollectionViewCell {
 // MARK: - 셀 재사용 시 사용 메서드
 
 extension RoutineCollectionViewCell {
-
+    
     // 셀 데이터 초기화
     private func resetData() {
-        wholeData = nil
+        self.routine = nil
+        self.result = nil
         backgroundColor = .clear
         stickerImageView.image = nil
         titleLabel.text = nil
         stopMarkImageView.isHidden = true
     }
-
+    
 }
 
 
 // MARK: - 뷰 업데이트 메서드
 
 extension RoutineCollectionViewCell {
-
+    
     // 뷰에 루틴 데이터 적용
-    private func updateData() {
-        guard let wholeData else { return }
-        let routine = wholeData.routine
-        let result = wholeData.result
+    private func updateRoutine() {
+        guard let routine else { return }
         
         updateBackgroundColor(routine.color)
         updateTitleLabel(routine.title)
         updateStickerImageView(routine.sticker)
         updateStopMarkView(routine.stopDate == nil)
-        updateResult(result.isCompleted)
     }
-
+    
     // 보드 컬러 업데이트
     private func updateBackgroundColor(_ color: BoardColor) {
         self.backgroundColor = color.uiColor()
     }
-
+    
     // 루틴 제목 업데이트
     private func updateTitleLabel(_ title: String) {
         self.titleLabel.text = title
     }
-
+    
     // 루틴 스티커 이미지 업데이트
     private func updateStickerImageView(_ assetName: AssetName) {
         guard let stickerImage = UIImage(systemName: assetName)?
             .withRenderingMode(.alwaysOriginal) else { return }
         self.stickerImageView.image = stickerImage
     }
-
+    
     // 루틴 중단마크 업데이트
     private func updateStopMarkView(_ stop: Bool) {
         stopMarkImageView.isHidden = stop
@@ -240,5 +248,5 @@ extension RoutineCollectionViewCell {
     private func updateResult(_ isCompleted: Bool) {
         checkImageView.isHidden = !isCompleted
     }
-
+    
 }

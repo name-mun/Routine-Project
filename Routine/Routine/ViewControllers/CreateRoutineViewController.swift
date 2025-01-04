@@ -21,7 +21,7 @@ class CreateRoutineViewController: UIViewController {
     private var sticker = "house.fill"
     private var color: BoardColor = BoardColor.white
     private var routineEditorMode: RoutineEditorMode
-    private var routine: RoutineData? // 루틴 수정 모드에서 필요한 변수
+    private var routine: Routine? // 루틴 수정 모드에서 필요한 변수
 
     // MARK: - 초기화
 
@@ -89,7 +89,7 @@ class CreateRoutineViewController: UIViewController {
 // MARK: - 데이터 설정
 
 extension CreateRoutineViewController {
-    func configureData(_ routine: RoutineData) {
+    func configureData(_ routine: Routine) {
         routineEditorView.configure(routine)
         self.routine = routine
     }
@@ -128,7 +128,7 @@ extension CreateRoutineViewController {
     // 추가하기 버튼 눌리면 실행
     private func addButtonTapped() {
         if routineEditorMode == .create {
-            let data = RoutineData(
+            let data = Routine(
                 title: routineEditorView.titleTextField.text ?? "",
                 color: color,
                 sticker: sticker,

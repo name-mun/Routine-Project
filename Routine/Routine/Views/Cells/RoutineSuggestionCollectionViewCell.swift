@@ -15,7 +15,7 @@ class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
     private let itemLabel = UILabel()
     private let imageView = UIImageView()
     private let addButton = UIButton()
-    var item: RoutineData?
+    var item: Routine?
 
     // MARK: - 초기화
 

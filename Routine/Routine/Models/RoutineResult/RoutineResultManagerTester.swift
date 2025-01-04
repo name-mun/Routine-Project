@@ -23,7 +23,8 @@ struct RoutineResultManagerTester {
     
     // 현재 테스트 데이터
     private var currentResult: RoutineResult? {
-        manager.read(date, id)
+        let dateID = DateID(date)
+        return manager.read(dateID, id)
     }
     
     // 전체 데이터 테스트

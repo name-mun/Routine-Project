@@ -101,7 +101,7 @@ class RoutineSuggestionViewController: UIViewController {
     }
 
     private func testButtonTapped() {
-        let testData = RoutineData(title: "테스트", color: .creamyBeige, sticker: "star", repeatation: Repeatation.default)
+        let testData = Routine(title: "테스트", color: .creamyBeige, sticker: "star", repeatation: Repeatation.default)
         RoutineManager.shared.create(testData)
         let nextVC = CreateRoutineViewController(RoutineEditorMode.edit)
         nextVC.configureData(testData)

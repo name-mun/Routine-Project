@@ -10,7 +10,7 @@ import SnapKit
 
 class RoutineSuggestionTableViewCell: UITableViewCell {
     static let id = "routineSuggestionTableViewCell"
-    var data: [RoutineData]?
+    var data: [Routine]?
     var closeModal: (() -> Void)?
 
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())

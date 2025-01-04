@@ -11,16 +11,16 @@ import Foundation
 import CoreData
 
 
-extension RoutineDataModel {
+extension RoutineCoreData {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<RoutineDataModel> {
-        return NSFetchRequest<RoutineDataModel>(entityName: "RoutineDataModel")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<RoutineCoreData> {
+        return NSFetchRequest<RoutineCoreData>(entityName: "RoutineCoreData")
     }
 
-    @NSManaged public var routineJSONData: Data?
+    @NSManaged public var encodedData: Data?
 
 }
 
-extension RoutineDataModel : Identifiable {
+extension RoutineCoreData : Identifiable {
 
 }

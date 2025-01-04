@@ -427,7 +427,7 @@ class RoutineEditorView: UIView {
 // MARK: - 데이터 설정
 
 extension RoutineEditorView {
-    func configure(_ routine: RoutineData) {
+    func configure(_ routine: Routine) {
         titleLabel.text = "루틴 수정"
         addButton.setTitle("수정하기", for: .normal)
         titleInputImage.image = UIImage(systemName: routine.sticker)
