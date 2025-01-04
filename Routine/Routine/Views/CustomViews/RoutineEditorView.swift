@@ -423,3 +423,16 @@ class RoutineEditorView: UIView {
         }
     }
 }
+
+// MARK: - 데이터 설정
+
+extension RoutineEditorView {
+    func configure(_ routine: RoutineData) {
+        titleLabel.text = "루틴 수정"
+        addButton.setTitle("수정하기", for: .normal)
+        titleInputImage.image = UIImage(systemName: routine.sticker)
+        titleInputView.backgroundColor = routine.color.uiColor()
+        titleTextField.text = routine.title
+        colorButton.backgroundColor = routine.color.uiColor()
+    }
+}
