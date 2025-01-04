@@ -56,7 +56,7 @@ extension RoutineDataModel {
     
     // 루틴 불러오기
     private func readRoutines(_ date: Date) -> [Routine] {
-        let dateID = DateID(date)
+//        let dateID = DateID(date)
         let routines = routineManager.read(date)
         
         return routines

@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum RoutineEditorMode {
+    case create
+    case edit
+}
+
 // 루틴 생성 화면 ViewController
 class CreateRoutineViewController: UIViewController {
 
@@ -15,6 +20,21 @@ class CreateRoutineViewController: UIViewController {
     private var selectedColorIndex = 0 // 선택된 색상 인덱스 저장
     private var sticker = "house.fill"
     private var color: BoardColor = BoardColor.white
+    private var routineEditorMode: RoutineEditorMode
+    private var routine: Routine? // 루틴 수정 모드에서 필요한 변수
+
+    // MARK: - 초기화
+
+    init(_ mode: RoutineEditorMode) {
+        self.routineEditorMode = mode
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - 생명주기 메서드
 
     override func loadView() {
         super.loadView()
@@ -29,12 +49,15 @@ class CreateRoutineViewController: UIViewController {
         setupAction()
     }
 
+    // MARK: - 레이아웃 설정
+
     private func configureNav() {
         self.navigationController?.navigationBar.isHidden = true
     }
 
     // 액션 연결
     private func setupAction() {
+
         // 색상 버튼 액션 연결
         routineEditorView.colorButton.addAction(UIAction{ [weak self] _ in
             self?.colorButtonTapped()
@@ -51,14 +74,24 @@ class CreateRoutineViewController: UIViewController {
         }, for: .touchUpInside)
 
         // 뒤로가기, 삭제하기 버튼 액션 연결
-        [
-            routineEditorView.backButton,
-            routineEditorView.deleteButton
-        ].forEach {
-            $0.addAction(UIAction{ [weak self] _ in
-                self?.backButtonTapped()
-            }, for: .touchUpInside)
-        }
+        routineEditorView.backButton.addAction(UIAction{ [weak self] _ in
+            self?.backButtonTapped()
+        }, for: .touchUpInside)
+
+        // 삭제하기 버튼 액션 연결
+        routineEditorView.deleteButton.addAction(UIAction{ [weak self] _ in
+            self?.deleteButtonTapped()
+        }, for: .touchUpInside)
+
+    }
+}
+
+// MARK: - 데이터 설정
+
+extension CreateRoutineViewController {
+    func configureData(_ routine: Routine) {
+        routineEditorView.configure(routine)
+        self.routine = routine
     }
 }
 
@@ -94,18 +127,36 @@ extension CreateRoutineViewController {
 
     // 추가하기 버튼 눌리면 실행
     private func addButtonTapped() {
-        let data = Routine(
-            title: routineEditorView.titleTextField.text ?? "",
-            color: color,
-            sticker: sticker,
-            repeatation: Repeatation.default
-        )
-        RoutineManager.shared.create(data)
+        if routineEditorMode == .create {
+            let data = Routine(
+                title: routineEditorView.titleTextField.text ?? "",
+                color: color,
+                sticker: sticker,
+                repeatation: Repeatation.default
+            )
+            RoutineManager.shared.create(data)
+        } else {
+            guard var routin = routine else { return }
+            routin.title = routineEditorView.titleTextField.text ?? ""
+            routin.color = color
+            routin.sticker = sticker
+            print(routin)
+            RoutineManager.shared.update(routin)
+        }
         navigationController?.popToRootViewController(animated: true)
     }
 
-    // 뒤로가기, 삭제하기 버튼 눌리면 실행
+    // 뒤로가기 버튼 눌리면 실행
     private func backButtonTapped() {
+        navigationController?.popToRootViewController(animated: true)
+    }
+
+    // 삭제하기 버튼 눌리면 실행
+    private func deleteButtonTapped() {
+        if routineEditorMode == .edit {
+            guard let routine = routine else { return }
+            RoutineManager.shared.delete(routine)
+        }
         navigationController?.popToRootViewController(animated: true)
     }
 }
@@ -129,5 +180,4 @@ extension CreateRoutineViewController: SelectStickerViewControllerDelegate {
         routineEditorView.titleInputImage.image = UIImage(systemName: sticker)?.withRenderingMode(.alwaysOriginal)
         self.sticker = sticker
     }
-
 }
