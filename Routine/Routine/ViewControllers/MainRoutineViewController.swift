@@ -145,11 +145,12 @@ extension MainRoutineViewController {
         result.toggle()
         
         routineDataModel.updateRoutineResult(result)
+        datas[indexPath.item].result = result
         routineCell.configureResult(result: result)
     }
     
     // 롱 프레스 액션
-    // 0.5초 동안 길게 누를 시 루틴 수정 뷰 푸쉬 
+    // 0.5초 동안 길게 누를 시 루틴 수정 뷰 푸쉬
     @objc
     private func collectionViewLogPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began else { return }
