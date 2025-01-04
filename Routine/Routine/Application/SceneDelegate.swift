@@ -24,6 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window.rootViewController = navigationController
     window.makeKeyAndVisible()
     self.window = window
+      
+      // 라이트 모드로 설정
+      window.overrideUserInterfaceStyle = .light
+
   }
   
   func sceneDidDisconnect(_ scene: UIScene) {
