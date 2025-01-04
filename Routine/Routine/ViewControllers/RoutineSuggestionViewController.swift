@@ -15,7 +15,18 @@ class RoutineSuggestionViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private let addButton = UIButton()
     private let suggestionData = SuggestionData.mock
-    
+
+    // 테스트용 버튼
+    private lazy var testButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .red
+        button.setTitle("수정테스트", for: .normal)
+        button.addAction(UIAction{ [weak self] _ in
+            self?.testButtonTapped()
+        }, for: .touchUpInside)
+        return button
+    }()
+
     var onDismiss: (() -> Void)?
 
     override func viewDidLoad() {
@@ -33,6 +44,8 @@ class RoutineSuggestionViewController: UIViewController {
     }
 
     private func configurePageTitle() {
+        view.addSubview(testButton)
+
         pageTitle.text = "루틴추천"
         pageTitle.textColor = .black
         pageTitle.font = .boldSystemFont(ofSize: 30)
@@ -70,8 +83,14 @@ class RoutineSuggestionViewController: UIViewController {
     }
 
     private func configureLayout() {
+        testButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(30)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+
         pageTitle.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(100)
+            $0.top.equalTo(testButton.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
         }
 
@@ -100,10 +119,23 @@ class RoutineSuggestionViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
+    private func testButtonTapped() {
+        let testData = RoutineData(title: "테스트", color: .creamyBeige, sticker: "star", repeatation: Repeatation.default)
+        RoutineManager.shared.create(testData)
+        let nextVC = CreateRoutineViewController(RoutineEditorMode.edit)
+        nextVC.configureData(testData)
+
+        let nav = self.presentingViewController as? UINavigationController
+
+        nav?.pushViewController(nextVC, animated: true)
+
+        self.dismiss(animated: true, completion: nil)
+    }
+
     @objc
     private func clickButton() {
 
-        let newViewController = CreateRoutineViewController()
+        let newViewController = CreateRoutineViewController(RoutineEditorMode.create)
 
         let nav = self.presentingViewController as? UINavigationController
 
