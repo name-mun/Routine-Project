@@ -91,6 +91,7 @@ final class CreateRoutineViewController: UIViewController {
 extension CreateRoutineViewController {
     func configureData(_ routine: Routine) {
         routineEditorView.configure(routine)
+        self.sticker = routine.sticker
         self.routine = routine
     }
 }
@@ -136,12 +137,12 @@ extension CreateRoutineViewController {
             )
             RoutineManager.shared.create(data)
         } else {
-            guard var routin = routine else { return }
-            routin.title = routineEditorView.titleTextField.text ?? ""
-            routin.color = color
-            routin.sticker = sticker
-            print(routin)
-            RoutineManager.shared.update(routin)
+            guard var routine = routine else { return }
+            routine.title = routineEditorView.titleTextField.text ?? ""
+            routine.color = color
+            routine.sticker = sticker
+            print(routine)
+            RoutineManager.shared.update(routine)
         }
         navigationController?.popToRootViewController(animated: true)
     }

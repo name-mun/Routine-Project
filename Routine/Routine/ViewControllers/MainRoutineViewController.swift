@@ -196,6 +196,7 @@ extension MainRoutineViewController {
         
         let editRoutineViewController = CreateRoutineViewController(.edit)
         editRoutineViewController.configureData(routine)
+//        editRoutineViewController.
         
         navigationController?.pushViewController(editRoutineViewController, animated: true)
     }
