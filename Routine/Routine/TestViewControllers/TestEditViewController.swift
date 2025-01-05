@@ -13,18 +13,19 @@ class TestEditViewController: UIViewController {
 
     let routineEditorView = RoutineEditorView()
 
+    override func loadView() {
+        super.loadView()
+
+        view = routineEditorView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI()
+        configureNav()
     }
 
-    private func configureUI() {
-        view.addSubview(routineEditorView)
-
-        routineEditorView.snp.makeConstraints {
-            $0.top.trailing.leading.bottom.equalToSuperview()
-        }
+    private func configureNav() {
+        self.navigationController?.navigationBar.isHidden = true
     }
-
 }
