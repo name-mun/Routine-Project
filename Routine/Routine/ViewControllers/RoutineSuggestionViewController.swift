@@ -6,16 +6,17 @@
 //
 
 import UIKit
+
 import SnapKit
 
-class RoutineSuggestionViewController: UIViewController {
+final class RoutineSuggestionViewController: UIViewController {
 
     private let pageTitle = UILabel()
     private let pageDescription = UILabel()
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let addButton = UIButton()
+    private let addButton = UIButton(type: .system)
     private let suggestionData = SuggestionData.mock
-    
+
     var onDismiss: (() -> Void)?
 
     override func viewDidLoad() {
@@ -60,6 +61,7 @@ class RoutineSuggestionViewController: UIViewController {
 
     private func configureAddButton() {
         addButton.setTitle("직접 만들기", for: .normal)
+        addButton.setTitleColor(.white, for: .normal)
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
         addButton.backgroundColor = .black
         addButton.layer.cornerRadius = 25
@@ -71,7 +73,7 @@ class RoutineSuggestionViewController: UIViewController {
 
     private func configureLayout() {
         pageTitle.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(100)
+            $0.top.equalToSuperview().inset(30)
             $0.leading.equalToSuperview().inset(20)
         }
 
@@ -100,22 +102,29 @@ class RoutineSuggestionViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
+    private func testButtonTapped() {
+        let testData = Routine(title: "테스트", color: .creamyBeige, sticker: "star", repeatation: Repeatation.default)
+        RoutineManager.shared.create(testData)
+        let nextVC = CreateRoutineViewController(RoutineEditorMode.edit)
+        nextVC.configureData(testData)
+
+        let nav = self.presentingViewController as? UINavigationController
+
+        nav?.pushViewController(nextVC, animated: true)
+
+        self.dismiss(animated: true, completion: nil)
+    }
+
     @objc
     private func clickButton() {
 
-        let newViewController = CreateRoutineViewController()
+        let newViewController = CreateRoutineViewController(RoutineEditorMode.create)
 
         let nav = self.presentingViewController as? UINavigationController
 
         nav?.pushViewController(newViewController, animated: true)
 
         self.dismiss(animated: true, completion: nil)
-
-        //nextScreen.modalPresentationStyle = .fullScreen
-
-        //present(nextScreen,animated: true,completion: nil)
-        //.navigationController?.pushViewController(nextScreen, animated: true)
-        //navigationController?.pushViewController(nextScreen, animated: true)
     }
 }
 
@@ -162,8 +171,3 @@ extension RoutineSuggestionViewController: UITableViewDataSource {
         return cell
     }
 }
-
-#Preview("RoutineSuggestionViewController") {
-    RoutineSuggestionViewController()
-}
-

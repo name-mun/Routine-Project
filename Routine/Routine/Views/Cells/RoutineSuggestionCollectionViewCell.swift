@@ -6,16 +6,16 @@
 //
 
 import UIKit
+
 import SnapKit
 
-
-class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
+final class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
     static let id = "routineSuggestionCollectionViewCell"
     private let view = UIView()
     private let itemLabel = UILabel()
     private let imageView = UIImageView()
     private let addButton = UIButton()
-    var item: RoutineData?
+    var item: Routine?
 
     // MARK: - 초기화
 
@@ -37,13 +37,22 @@ class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
         itemLabel.text = item?.title
         itemLabel.font = .systemFont(ofSize: 15)
         itemLabel.textColor = .black
+        
 
-        imageView.image = UIImage(named: "test")
+        if let sticker = item?.sticker {
+            imageView.image = UIImage(systemName: sticker)?.withRenderingMode(.alwaysOriginal)
+        }
+
+        if let color = item?.color.uiColor() {
+            view.backgroundColor = color
+        }
+
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
 
-
-        addButton.setImage(UIImage(named: "button"), for: .normal)
-
+        addButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        addButton.tintColor = .black
+        
         [itemLabel, imageView, addButton].forEach {
             view.addSubview($0)
         }

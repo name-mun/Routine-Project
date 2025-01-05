@@ -7,7 +7,7 @@
 
 import UIKit
 
-//MARK: - RoutineBoardCollectionViewCell.Position
+// MARK: - RoutineBoardCollectionViewCell.Position
 
 extension RoutineCollectionViewCell {
 
@@ -70,7 +70,7 @@ extension RoutineCollectionViewCell {
             init(index: Int, countOfData: Int) {
                 if index == 0 && countOfData > 1 {
                     self = .first
-                } else if index == countOfData-1 {
+                } else if index == countOfData - 1 {
                     self = .last
                 } else {
                     self = .normal
