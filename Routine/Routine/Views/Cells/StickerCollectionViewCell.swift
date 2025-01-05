@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class StickerCollectionViewCell: UICollectionViewCell {
+final class StickerCollectionViewCell: UICollectionViewCell {
 
     private let stickerImageView: UIImageView = {
         let imageView = UIImageView()
@@ -44,5 +44,6 @@ class StickerCollectionViewCell: UICollectionViewCell {
 
     func configure(_ stickerName: String) {
         stickerImageView.image = UIImage(systemName: stickerName)?.withRenderingMode(.alwaysOriginal)
+        
     }
 }

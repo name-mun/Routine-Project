@@ -15,7 +15,7 @@ import SnapKit
 final class MainRoutineViewController: UIViewController {
     
     // 루틴 데이터 모델
-    private let routineDataModel = RoutineDataModel.shared
+    private let routineDataModel = RoutineDataManager.shared
     
     // 루틴 데이터
     private var datas: [(routine: Routine, result: RoutineResult)] = []
@@ -54,7 +54,7 @@ final class MainRoutineViewController: UIViewController {
     
     // 캘린더 모달 버튼
     private let calendarModalButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         
         let configuration = UIButton.Configuration.plain()
         button.configuration = configuration
@@ -70,10 +70,18 @@ final class MainRoutineViewController: UIViewController {
     
     // 루틴 추천 모달 버튼
     private let suggestionModalButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         
         button.backgroundColor = .clear
-        button.setImage(UIImage(named: "button"), for: .normal)
+        
+        let image = UIImage(systemName: "plus.circle")
+        let newSize = CGSize(width: 50, height: 50)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        let resizedImage = renderer.image { _ in
+            image?.draw(in: CGRect(origin: .zero, size: newSize)) // 이미지 사이즈 조정
+        }
+        button.setImage(resizedImage, for: .normal)
+        button.tintColor = .black
         
         button.addTarget(nil,
                          action: #selector(suggestionModalButtonTapped),
@@ -90,10 +98,34 @@ final class MainRoutineViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isEditing = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isHidden = true
         
         return collectionView
     }()
     
+    private let emptyRoutineLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "루틴칸이 없어요."
+        label.font = .boldSystemFont(ofSize: 25)
+        label.textColor = .black
+        label.textAlignment = .center
+        label.isHidden = true
+        
+        return label
+    }()
+    
+    private let emptyMessageLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "루틴칸을 추가해서 루틴을 시작해보세요."
+        label.font = .systemFont(ofSize: 15)
+        label.textColor = .systemGray
+        label.textAlignment = .center
+        label.isHidden = true
+        
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +141,7 @@ final class MainRoutineViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateRoutineDatas()
+        navigationController?.isNavigationBarHidden = true
     }
     
 }
@@ -163,6 +196,7 @@ extension MainRoutineViewController {
         
         let editRoutineViewController = CreateRoutineViewController(.edit)
         editRoutineViewController.configureData(routine)
+//        editRoutineViewController.
         
         navigationController?.pushViewController(editRoutineViewController, animated: true)
     }
@@ -180,26 +214,28 @@ extension MainRoutineViewController {
             titleLabel,
             calendarModalButton,
             routineCollectionView,
-            suggestionModalButton
+            suggestionModalButton,
+            emptyRoutineLabel,
+            emptyMessageLabel
         ].forEach { view.addSubview($0) }
         
-        dateLabel.snp.makeConstraints { label in
-            label.top.equalTo(view.safeAreaLayoutGuide)
-            label.leading.equalToSuperview().inset(20)
-            label.height.equalTo(30)
+        dateLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(30)
         }
         
-        titleLabel.snp.makeConstraints { label in
-            label.top.equalTo(dateLabel.snp.bottom)
-            label.leading.equalToSuperview().inset(20)
-            label.height.equalTo(40)
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(40)
         }
         
         // 캘린더 모달 버튼 레이아웃
-        calendarModalButton.snp.makeConstraints { button in
-            button.centerY.equalTo(titleLabel)
-            button.leading.equalTo(titleLabel.snp.trailing)
-            button.height.equalTo(titleLabel)
+        calendarModalButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel)
+            $0.leading.equalTo(titleLabel.snp.trailing)
+            $0.height.equalTo(titleLabel)
         }
         
         // 루틴 컬렉션 뷰 레이아웃
@@ -215,12 +251,30 @@ extension MainRoutineViewController {
             $0.width.height.equalTo(60)
         }
         
+        emptyMessageLabel.snp.makeConstraints{
+            $0.center.equalTo(routineCollectionView)
+        }
+        
+        emptyRoutineLabel.snp.makeConstraints{
+            $0.bottom.equalTo(emptyMessageLabel.snp.top).offset(-10)
+            $0.centerX.equalToSuperview()
+        }
+        
     }
     
     // 루틴 데이터 업데이트 및 컬렉션 뷰 새로고침
     private func updateRoutineDatas() {
         datas = routineDataModel.readRoutineDatas(self.date)
         routineCollectionView.reloadData()
+        if datas.isEmpty {
+            routineCollectionView.isHidden = true
+            emptyRoutineLabel.isHidden = false
+            emptyMessageLabel.isHidden = false
+        } else {
+            routineCollectionView.isHidden = false
+            emptyRoutineLabel.isHidden = true
+            emptyMessageLabel.isHidden = true
+        }
     }
     
 }
@@ -238,8 +292,19 @@ extension MainRoutineViewController {
         calendarViewController.onDismiss = { [weak self] date in
             self?.updateDate(date)
         }
+                
+        if let sheet = calendarViewController.sheetPresentationController {
+            if #available(iOS 16.0, *) {
+                sheet.detents = [
+                    .custom { _ in
+                        return 450
+                    }
+                ]
+            } else {
+                sheet.detents = [.medium()]
+            }
+        }
         
-        calendarViewController.modalPresentationStyle = .pageSheet
         present(calendarViewController, animated: false)
     }
     

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class SelectStickerCollectionViewHeader: UICollectionReusableView {
+final class SelectStickerCollectionViewHeader: UICollectionReusableView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()

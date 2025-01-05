@@ -13,7 +13,7 @@ protocol SelectStickerViewControllerDelegate: AnyObject {
     func updateSticker(_ viewController: UIViewController, sticker: String)
 }
 
-class SelectStickerViewController: UIViewController {
+final class SelectStickerViewController: UIViewController {
 
     weak var delegate: SelectStickerViewControllerDelegate?
     let stickers = StickerData.data

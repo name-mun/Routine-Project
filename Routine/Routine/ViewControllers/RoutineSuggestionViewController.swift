@@ -6,14 +6,15 @@
 //
 
 import UIKit
+
 import SnapKit
 
-class RoutineSuggestionViewController: UIViewController {
+final class RoutineSuggestionViewController: UIViewController {
 
     private let pageTitle = UILabel()
     private let pageDescription = UILabel()
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let addButton = UIButton()
+    private let addButton = UIButton(type: .system)
     private let suggestionData = SuggestionData.mock
 
     var onDismiss: (() -> Void)?
@@ -60,6 +61,7 @@ class RoutineSuggestionViewController: UIViewController {
 
     private func configureAddButton() {
         addButton.setTitle("직접 만들기", for: .normal)
+        addButton.setTitleColor(.white, for: .normal)
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
         addButton.backgroundColor = .black
         addButton.layer.cornerRadius = 25

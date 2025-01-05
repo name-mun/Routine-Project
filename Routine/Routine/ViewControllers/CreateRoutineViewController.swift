@@ -13,7 +13,7 @@ enum RoutineEditorMode {
 }
 
 // 루틴 생성 화면 ViewController
-class CreateRoutineViewController: UIViewController {
+final class CreateRoutineViewController: UIViewController {
 
     let routineEditorView = RoutineEditorView()
 
@@ -91,6 +91,8 @@ class CreateRoutineViewController: UIViewController {
 extension CreateRoutineViewController {
     func configureData(_ routine: Routine) {
         routineEditorView.configure(routine)
+        self.sticker = routine.sticker
+        self.color = routine.color
         self.routine = routine
     }
 }
@@ -136,12 +138,12 @@ extension CreateRoutineViewController {
             )
             RoutineManager.shared.create(data)
         } else {
-            guard var routin = routine else { return }
-            routin.title = routineEditorView.titleTextField.text ?? ""
-            routin.color = color
-            routin.sticker = sticker
-            print(routin)
-            RoutineManager.shared.update(routin)
+            guard var routine = routine else { return }
+            routine.title = routineEditorView.titleTextField.text ?? ""
+            routine.color = color
+            routine.sticker = sticker
+            print(routine)
+            RoutineManager.shared.update(routine)
         }
         navigationController?.popToRootViewController(animated: true)
     }
@@ -162,6 +164,14 @@ extension CreateRoutineViewController {
         } else {
             navigationController?.popToRootViewController(animated: true)
         }
+    }
+}
+
+// MARK: - TextField 키보드 설정
+
+extension CreateRoutineViewController {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 
@@ -198,3 +208,5 @@ extension CreateRoutineViewController: DeleteRoutineViewControllerDelegate {
         navigationController?.popToRootViewController(animated: true)
     }
 }
+
+

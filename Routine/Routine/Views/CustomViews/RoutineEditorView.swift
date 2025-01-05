@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 // 루틴 생성 및 수정(삭제) View
-class RoutineEditorView: UIView {
+final class RoutineEditorView: UIView {
 
     // MARK: - 프로퍼티 생성
 
@@ -93,6 +93,8 @@ class RoutineEditorView: UIView {
         let textField = UITextField()
         textField.placeholder = "타이틀 입력"
         textField.font = .systemFont(ofSize: 15)
+        textField.textAlignment = .center
+
         return textField
     }()
 
@@ -381,6 +383,7 @@ class RoutineEditorView: UIView {
             $0.height.equalTo(100)
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().offset(-20)
+            $0.leading.trailing.equalToSuperview().inset(3)
         }
 
         titleInputImage.snp.makeConstraints {
@@ -430,7 +433,7 @@ extension RoutineEditorView {
     func configure(_ routine: Routine) {
         titleLabel.text = "루틴 수정"
         addButton.setTitle("수정하기", for: .normal)
-        titleInputImage.image = UIImage(systemName: routine.sticker)
+        titleInputImage.image = UIImage(systemName: routine.sticker)?.withRenderingMode(.alwaysOriginal)
         titleInputView.backgroundColor = routine.color.uiColor()
         titleTextField.text = routine.title
         colorButton.backgroundColor = routine.color.uiColor()

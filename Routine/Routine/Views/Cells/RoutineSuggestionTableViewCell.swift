@@ -6,9 +6,10 @@
 //
 
 import UIKit
+
 import SnapKit
 
-class RoutineSuggestionTableViewCell: UITableViewCell {
+final class RoutineSuggestionTableViewCell: UITableViewCell {
     static let id = "routineSuggestionTableViewCell"
     var data: [Routine]?
     var closeModal: (() -> Void)?

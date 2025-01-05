@@ -13,7 +13,7 @@ protocol DeleteRoutineViewControllerDelegate: AnyObject {
     func updateData(_ viewController: UIViewController, _ isApplyTapped: Bool)
 }
 
-class DeleteRoutineViewController: UIViewController {
+final class DeleteRoutineViewController: UIViewController {
 
     var delegate: DeleteRoutineViewControllerDelegate?
 

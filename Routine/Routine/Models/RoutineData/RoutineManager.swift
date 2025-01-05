@@ -13,7 +13,7 @@ import CoreData
 ///
 ///CRUD 메서드 지원
 ///
-class RoutineManager: NSDataManager {
+final class RoutineManager: NSDataManager {
     
     typealias CoreData = RoutineCoreData
     

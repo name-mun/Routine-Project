@@ -18,7 +18,7 @@ class SelectColorViewController: UIViewController {
 
     weak var delegate: SelectColorViewControllerDelegate?
 
-    private var selectedIneex = 0
+    private var selectedIndex = 0
 
     // 타이틀 Label
     private let titleLabel: UILabel = {
@@ -75,7 +75,7 @@ class SelectColorViewController: UIViewController {
 extension SelectColorViewController {
 
     func setupIndex(_ index: Int) {
-        selectedIneex = index
+        selectedIndex = index
     }
 }
 
@@ -84,9 +84,9 @@ extension SelectColorViewController {
 extension SelectColorViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedIneex = indexPath.item
+        selectedIndex = indexPath.item
         guard let color = BoardColor(rawValue: indexPath.item) else { return }
-        self.delegate?.updateColor(self, color: color, selectedIndex: selectedIneex)
+        self.delegate?.updateColor(self, color: color, selectedIndex: selectedIndex)
         self.dismiss(animated: true)
     }
 }
@@ -106,7 +106,7 @@ extension SelectColorViewController: UICollectionViewDataSource {
             cell.setupColor(color)
         }
 
-        if indexPath.item == selectedIneex {
+        if indexPath.item == selectedIndex {
             cell.setupCheck(true)
         } else {
             cell.setupCheck(false)
