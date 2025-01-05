@@ -59,7 +59,8 @@ extension RoutineSuggestionTableViewCell: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let data = data?[indexPath.item] else { return }
-        RoutineManager.shared.create(data)
+        let routine = Routine.remake(by: data)
+        RoutineManager.shared.create(routine)
 
         guard let closeModal = closeModal else { return }
         closeModal()

@@ -83,6 +83,14 @@ struct Routine: JSONCodable, CustomStringConvertible {
         self.alarm = alarm
     }
     
+    static func remake(by suggestionRoutne: Routine) -> Routine {
+        
+        return Routine(title: suggestionRoutne.title,
+                       color: suggestionRoutne.color,
+                       sticker: suggestionRoutne.sticker,
+                       repeatation: suggestionRoutne.repeatation)
+    }
+    
     func result(at date: Date) -> RoutineResult {
         let dateID = DateID(date)
         guard let result = Self.routineResultManager.read(dateID, id) else {

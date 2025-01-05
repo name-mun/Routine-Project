@@ -88,11 +88,10 @@ extension RoutineResultManager {
         for routineResultCoreData in routineResultCoreDatas {
             if routineResultCoreData.isSame(routineResult) {
                 routineResultCoreData.set(routineResult)
+                save()
                 return
             }
         }
-                
-        save()
     }
     
     /// routineResults 를 통해 데이터 삭제
