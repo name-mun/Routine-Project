@@ -6,11 +6,12 @@
 //
 
 import UIKit
+
 import SnapKit
 
 // MARK: - MainDateCollectionViewCell
 
-class MainViewDateCollectionViewCell: UICollectionViewCell {
+final class MainViewDateCollectionViewCell: UICollectionViewCell {
     
     //루틴 실행 결과 반영 필요.
     private var date: Date?

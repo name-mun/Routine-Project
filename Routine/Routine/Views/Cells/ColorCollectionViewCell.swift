@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class ColorCollectionViewCell: UICollectionViewCell {
+final class ColorCollectionViewCell: UICollectionViewCell {
 
     // 색상 imageView
     var colorImageView: UIImageView = {

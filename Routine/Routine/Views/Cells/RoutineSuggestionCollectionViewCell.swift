@@ -6,10 +6,10 @@
 //
 
 import UIKit
+
 import SnapKit
 
-
-class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
+final class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
     static let id = "routineSuggestionCollectionViewCell"
     private let view = UIView()
     private let itemLabel = UILabel()
@@ -37,6 +37,7 @@ class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
         itemLabel.text = item?.title
         itemLabel.font = .systemFont(ofSize: 15)
         itemLabel.textColor = .black
+        
 
         if let sticker = item?.sticker {
             imageView.image = UIImage(systemName: sticker)?.withRenderingMode(.alwaysOriginal)
@@ -47,10 +48,11 @@ class RoutineSuggestionCollectionViewCell: UICollectionViewCell {
         }
 
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
 
-
-        addButton.setImage(UIImage(named: "button"), for: .normal)
-
+        addButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        addButton.tintColor = .black
+        
         [itemLabel, imageView, addButton].forEach {
             view.addSubview($0)
         }

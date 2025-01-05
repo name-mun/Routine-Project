@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class RoutineSuggestionTableHeader: UITableViewHeaderFooterView {
+final class RoutineSuggestionTableHeader: UITableViewHeaderFooterView {
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     var sectionTitle: String?

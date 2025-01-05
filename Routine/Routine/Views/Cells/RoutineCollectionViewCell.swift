@@ -11,19 +11,12 @@ import SnapKit
 
 // MARK: - RoutineCollectionViewCell
 
-class RoutineCollectionViewCell: UICollectionViewCell {
+final class RoutineCollectionViewCell: UICollectionViewCell {
     
     static let id: String = "RoutineBoardCollectionViewCell"
     static let borderWidth: CGFloat = 1
     static let cornerRadius: CGFloat = 10
-    
-    // 루틴 데이터
-    // 데이터가 변할 경우 프로퍼티 옵저버를 통해 뷰를 업데이트한다.
-    //    private var wholeData: RoutineData? {
-    //        didSet {
-    //            updateData()
-    //        }
-    //    }
+
     private(set) var routine: Routine?
     private(set) var result: RoutineResult?
     
@@ -55,7 +48,8 @@ class RoutineCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .bottom
         imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFill
-        
+        imageView.tintColor = .black
+
         return imageView
     }()
     
@@ -69,6 +63,7 @@ class RoutineCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         
+        
         return imageView
     }()
     
@@ -80,7 +75,7 @@ class RoutineCollectionViewCell: UICollectionViewCell {
         imageView.backgroundColor = .clear
         imageView.isHidden = true
         
-        let checkImage = UIImage(systemName: "checkmark.square.fill")?.withTintColor(.green.withAlphaComponent(0.8))
+        let checkImage = UIImage(systemName: "checkmark.square.fill")?.withTintColor(.systemGreen.withAlphaComponent(0.8))
         
         let imageSize = CGSize(width: 30, height: 25)
         let renderer = UIGraphicsImageRenderer(size: imageSize)
@@ -155,32 +150,32 @@ extension RoutineCollectionViewCell {
         ].forEach { stackView.addArrangedSubview($0) }
         
         // 중단 마크 레이아웃 설정
-        stopMarkImageView.snp.makeConstraints { imageView in
-            imageView.trailing.top.equalToSuperview().inset(8)
-            imageView.size.equalTo(15)
+        stopMarkImageView.snp.makeConstraints {
+            $0.trailing.top.equalToSuperview().inset(8)
+            $0.size.equalTo(15)
         }
         
         // 전체 스택 뷰 레이아웃 설정
-        stackView.snp.makeConstraints { stackView in
-            stackView.center.size.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.center.size.equalToSuperview()
         }
         
         // 루틴 제목 라벨 레이아웃 설정
-        titleLabel.snp.makeConstraints { titleLabel in
-            titleLabel.leading.trailing.equalToSuperview().inset(20)
-            titleLabel.height.equalToSuperview().multipliedBy(0.7)
-            titleLabel.centerX.equalToSuperview()
+        titleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalToSuperview().multipliedBy(0.7)
+            $0.centerX.equalToSuperview()
         }
         
         // 스티커 이미지 뷰 레이아웃 설정
-        stickerImageView.snp.makeConstraints { imageView in
-            imageView.height.equalToSuperview().multipliedBy(0.3)
-            imageView.centerX.equalToSuperview()
+        stickerImageView.snp.makeConstraints {
+            $0.height.equalToSuperview().multipliedBy(0.3)
+            $0.centerX.equalToSuperview()
         }
         
-        checkImageView.snp.makeConstraints { imageView in
-            imageView.center.equalToSuperview()
-            imageView.size.equalToSuperview().multipliedBy(0.5)
+        checkImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.size.equalToSuperview().multipliedBy(0.5)
         }
         
         clipsToBounds = true

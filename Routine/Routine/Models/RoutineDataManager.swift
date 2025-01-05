@@ -9,9 +9,9 @@ import Foundation
 
 /// Routine, RoutineResult 에 대한 로직 처리 싱글톤 객체
 ///
-class RoutineDataModel {
+final class RoutineDataManager {
     
-    static let shared = RoutineDataModel()
+    static let shared = RoutineDataManager()
     
     private init() {}
     
@@ -52,7 +52,7 @@ class RoutineDataModel {
 }
 
 
-extension RoutineDataModel {
+extension RoutineDataManager {
     
     // 루틴 불러오기
     private func readRoutines(_ date: Date) -> [Routine] {

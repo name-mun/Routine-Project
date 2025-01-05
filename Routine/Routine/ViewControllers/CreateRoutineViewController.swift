@@ -13,7 +13,7 @@ enum RoutineEditorMode {
 }
 
 // 루틴 생성 화면 ViewController
-class CreateRoutineViewController: UIViewController {
+final class CreateRoutineViewController: UIViewController {
 
     let routineEditorView = RoutineEditorView()
 
@@ -165,6 +165,14 @@ extension CreateRoutineViewController {
     }
 }
 
+// MARK: - TextField 키보드 설정
+
+extension CreateRoutineViewController {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+}
+
 // MARK: - SelectColorViewController Delegate 설정
 
 extension CreateRoutineViewController: SelectColorViewControllerDelegate {
@@ -198,3 +206,5 @@ extension CreateRoutineViewController: DeleteRoutineViewControllerDelegate {
         navigationController?.popToRootViewController(animated: true)
     }
 }
+
+

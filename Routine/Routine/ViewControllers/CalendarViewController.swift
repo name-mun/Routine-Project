@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 /// 날짜 선택 화면 ViewController
-class CalendarViewController: UIViewController {
+final class CalendarViewController: UIViewController {
     
     // dismiss 시 실행 클로저
     var onDismiss: ((Date) -> Void)?

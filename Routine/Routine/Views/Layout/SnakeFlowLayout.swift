@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - SnakeFlowLayout
 
-class SnakeFlowLayout: UICollectionViewFlowLayout {
+final class SnakeFlowLayout: UICollectionViewFlowLayout {
   
   private var cachedAttributes: [UICollectionViewLayoutAttributes] = []
   

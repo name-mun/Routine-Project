@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class EditorCustomView: UIView {
+final class EditorCustomView: UIView {
 
     // 토글 Button
     var toggleSwitch: UISwitch = {
