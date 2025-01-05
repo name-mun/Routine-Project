@@ -92,6 +92,7 @@ extension CreateRoutineViewController {
     func configureData(_ routine: Routine) {
         routineEditorView.configure(routine)
         self.sticker = routine.sticker
+        self.color = routine.color
         self.routine = routine
     }
 }
